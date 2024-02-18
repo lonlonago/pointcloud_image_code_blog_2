@@ -1,0 +1,11 @@
+![avatar]( abfbd451f7914fdbbb8d9adaf0703ef7.png) 
+
+ In the fusion positioning of GNSS and Lidar, there is such a problem that if an accurate static external parameter of the map coordinate system relative to the world coordinate system is obtained, GNSS and lidar positioning on the same carrier can be mapped to the same coordinate system, and the positioning deviation of the two does not exceed 20cm, so as to meet the conditions of data fusion. The general approach is to record the warp and latitude heights and heading of the initial location of the map as the static external parameters of map to world during the lidar global positioning process, but we will find that if we only refer to this one location point, the two trajectories that run out will be like this: green: gnss positioning, yellow: lidar positioning, the reason for the deviation may be the deviation between the size of the mechanical external parameters installed by lidar and inertial navigation, or it may be a problem of map accuracy. How to ensure that the two trajectories are as consistent as possible? 
+
+ ![avatar]( 7b069474b9dd4508a7d287cb9de72a84.png) 
+
+ You can observe and manually adjust the static external parameters of map2world. The method here is to register the static external parameters through the position registration of GNSS and LIDAR positioning to compensate the static external participants. The essence is a least squares problem. The position of lidar matching is close to the gnss position. Here, use the ICP in PCL to solve R, t. Green: gnss positioning, red: radar position after registration. The R and t obtained by solving are: trans: -0.00119538, -0.00497306, 0.000654312 rpy: -171.906, -177.667,177.856. Compensation for this parameter to the map2world static external parameters can make the lidar matching pose consistent with gnss to the greatest extent. Key source code: 
+
+  ```python  
+After clicking on the GitHub Sponsor button above, you will obtain access permissions to my private code repository ( https://github.com/slowlon/my_code_bar ) to view this blog code. By searching the code number of this blog, you can find the code you need, code number is: 2024020309573757037
+  ```  
